@@ -7,7 +7,16 @@ const bodyParser = require('body-parser');
 dotenv.config();
 const httpPort = process.env.HTTP_PORT;
 
+// html 파일을 렌더링하기 위한 미들웨어 설정
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+app.set('views', __dirname + '/views');
+
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.get('/pages/signup', (req, res) => {
+    res.render('pages/signup');
+});
 
 // 회원 가입을 처리하는 미들웨어
 app.post('/signup', (req, res) => {
