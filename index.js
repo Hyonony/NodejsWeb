@@ -32,6 +32,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+app.get('/', (req, res) => {
+  res.render('pages/homepage');
+});
+
 app.get('/pages/login', (req, res) => {
   res.render('pages/login');
 });
