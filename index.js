@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
 const mysql = require('mysql2');
+const session = require('express-session');
 
 // body-parser 미들웨어를 사용하여 POST 데이터를 파싱합니다.
 const bodyParser = require('body-parser');
@@ -25,6 +26,15 @@ app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true
+}));
+app.get('/pages/login', (req, res) => {
+  res.render('pages/login');
+});
 
 app.get('/pages/signup', (req, res) => {
     res.render('pages/signup');
@@ -59,11 +69,49 @@ app.post('/signup', (req, res) => {
   
     res.send('회원 가입이 완료되었습니다.');
   });
+app.post('/login', (req, res) => {
+    const userID = req.body.username;
+    const password = req.body.password;
 
+    const connection = mysql.createConnection({
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_DATABASE,
+    });
+
+    connection.connect((err) => {
+        if (err) throw err;
+        console.log('MySQL에 연결되었습니다.');
+    });
+
+    // 사용자 정보를 가져와 로그인 검사
+    connection.query('SELECT * FROM users WHERE userID = ? AND password = ?', [userID, password], (err, results) => {
+        if (err) throw err;
+
+        if (results.length > 0) {
+            req.session.loggedin = true;
+            req.session.username = userID;
+            res.redirect('/home');
+        } else {
+            res.send('아이디 또는 비밀번호가 일치하지 않습니다.');
+        }
+    });
+
+    connection.end();
+});
 // MySQL 연결 객체를 시작합니다.
 connection.connect((err) => {
   if (err) throw err;
   console.log('MySQL에 연결되었습니다.');
+});
+
+app.get('/home', (req, res) => {
+  if (req.session.loggedin) {
+      res.send(`환영합니다, ${req.session.username}님!`);
+  } else {
+      res.redirect('/login');
+  }
 });
 
 app.use((req, res, next) => {
