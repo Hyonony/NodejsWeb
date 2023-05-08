@@ -32,7 +32,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-app.get('/', (req, res) => {
+app.get('/pages/homepage', (req, res) => {
   res.render('pages/homepage');
 });
 
@@ -42,6 +42,13 @@ app.get('/pages/login', (req, res) => {
 
 app.get('/pages/signup', (req, res) => {
     res.render('pages/signup');
+});
+
+app.get('/pages/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) throw err;
+    res.render('pages/logout');
+  });
 });
 
 // 회원 가입을 처리하는 미들웨어
@@ -96,7 +103,7 @@ app.post('/login', (req, res) => {
         if (results.length > 0) {
             req.session.loggedin = true;
             req.session.username = userID;
-            res.redirect('/home');
+            res.redirect('/pages/homepage');
         } else {
             res.send('아이디 또는 비밀번호가 일치하지 않습니다.');
         }

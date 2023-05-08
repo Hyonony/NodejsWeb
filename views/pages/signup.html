@@ -13,10 +13,10 @@
 		<label for="email">이메일:</label>
 		<input type="email" name="email" id="email"><br>
 		<button type="submit" onclick="return validate()">회원가입</button>
-
-		<button onclick="location.href='/pages/login'">Login</button>
-		
 	</form>
+	<div>
+		<button onclick="location.href='/pages/login'">Login</button>
+	</div>
 	<script>
 		function validate() {
 		  const username = document.getElementById('username').value;
