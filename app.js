@@ -1,7 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
-
+require('dotenv').config();
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -31,11 +31,12 @@ const homeRoutes = require('./routes/homeRoutes');
 const loginRoutes = require('./routes/loginRoutes');
 const signupRoutes = require('./routes/signupRoutes');
 
+app.set('view engine', 'ejs');
 app.use('/', homeRoutes);
-app.use('/login', loginRoutes);
+app.use('/login/pages', loginRoutes);
 app.use('/signup', signupRoutes);
 
 // 서버 실행
-app.listen(3000, function() {
-  console.log('Server is running on port 3000!');
+app.listen(process.env.HTTP_PORT, function() {
+  console.log(`Server is running on port ${process.env.HTTP_PORT}!`);
 });

@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/userModel');
 
-router.get('/', (req, res) => {
-  res.render('login');
+router.get('/login', (req, res) => {
+  res.render('./views/pages/login.ejs');
 });
 
 router.post('/', async (req, res) => {
