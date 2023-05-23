@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/userModel');
 
-router.get('/login', (req, res) => {
-  res.render('./views/pages/login.ejs');
+router.get('/', (req, res) => {
+  res.render('../views/pages/login.ejs');
 });
 
-router.post('/', async (req, res) => {
-  const { email, password } = req.body;
+router.post('/login', async (req, res) => {
+  const { username, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ username });
 
   if (!user) {
     return res.render('login', { error: 'Invalid email or password' });

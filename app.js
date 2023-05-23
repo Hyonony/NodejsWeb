@@ -33,7 +33,7 @@ const signupRoutes = require('./routes/signupRoutes');
 
 app.set('view engine', 'ejs');
 app.use('/', homeRoutes);
-app.use('/login/pages', loginRoutes);
+app.use('/login', loginRoutes);
 app.use('/signup', signupRoutes);
 
 // 서버 실행

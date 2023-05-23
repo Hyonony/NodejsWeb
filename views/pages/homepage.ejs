@@ -5,19 +5,12 @@
 </head>
 <body>
 	<h1>Welcome to my website</h1>
-	<button onclick="location.href='/pages/login'">Login</button>
-	<button onclick="location.href='/pages/signup'">Signup</button>
+	<button onclick="location.href='/login'">Login</button>
+	<button onclick="location.href='/signup'">Signup</button>
     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">로그아웃</a>
 
-    <form id="logout-form" action="/pages/logout" method="post">
+    <form id="logout-form" action="logout" method="post">
     <input type="hidden" name="_method" value="delete">
     </form>
 </body>
 </html>
-/*
-if (req.session.loggedin) {
-    res.send(`환영합니다, ${req.session.username}님!`);
-  } else {
-    res.redirect('/login');
-  }
-*/
