@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 require('dotenv').config();
 const app = express();
 
@@ -14,6 +15,12 @@ const connection = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
 });
+
+app.use(session({
+  secret: 'hellloworld',  // 세션 데이터를 암호화하기 위한 키
+  resave: false,
+  saveUninitialized: false
+}));
 
 
 // MySQL 연결

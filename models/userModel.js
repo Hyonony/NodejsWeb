@@ -9,8 +9,8 @@ const connection = mysql.createConnection({
 });
 
 const userModel = {
-  createUser: (userID, password, email) => {
-    const sql = `INSERT INTO users (userID, password, email) VALUES ('${userID}', '${password}', '${email}')`;
+  createUser: (userID, email, password) => {
+    const sql = `INSERT INTO users (userID, email, password) VALUES ('${userID}', '${email}', '${password}')`;
 
     return new Promise((resolve, reject) => {
       connection.query(sql, (err, result) => {

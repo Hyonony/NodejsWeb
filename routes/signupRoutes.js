@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/userModel');
+const userModel = require('../models/userModel');
 
 router.get('/', (req, res) => {
   res.render('../views/pages/signup');
 });
 
 router.post('/', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { userID, email, password } = req.body;
 
-  const user = await User.create({ name, email, password });
+  const user = await userModel.createUser(userID, email, password);
 
   req.session.user = user;
   res.redirect('/');
